@@ -1,11 +1,8 @@
 package de.snickit.forte
 
-import javafx.application.Application
-import tornadofx.App
-import tornadofx.InternalWindow
+import kotlin.time.ExperimentalTime
 
-class CustomerApp : App(CustomerForm::class, InternalWindow.Styles::class)
-
+@ExperimentalTime
 fun main(args: Array<String>) {
-    Application.launch(CustomerApp::class.java, *args)
+    javafx.application.Application.launch(ForteApp::class.java, *args)
 }
