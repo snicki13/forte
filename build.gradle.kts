@@ -38,3 +38,23 @@ sourceSets.main {
     java.srcDirs("src/main/java", "src/main/kotlin")
     resources.srcDir("src/main/resources")
 }
+
+// Include dependent libraries in archive.
+var mainClassName = "de.snickit.forte.ForteMain"
+
+val fatJar = task("fatJar", type = Jar::class) {
+    baseName = "${project.name}-standalone"
+    manifest {
+        attributes["Implementation-Title"] = "Gradle Jar File Example"
+        attributes["Implementation-Version"] = version
+        attributes["Main-Class"] = mainClassName
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    with(tasks.jar.get() as CopySpec)
+}
+
+tasks {
+    "build" {
+        dependsOn(fatJar)
+    }
+}
