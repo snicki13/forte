@@ -1,40 +1,19 @@
-package de.snickit.forte
+package de.snickit.forte.model
 
-import javafx.beans.property.Property
-import javafx.beans.property.StringProperty
-import javafx.scene.paint.Color
-import tornadofx.*
-import java.time.LocalDate
-import java.util.*
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
-import kotlin.time.TimeMark
-import kotlin.time.TimeSource
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
 
-@ExperimentalTime
-class Task() {
+object Tasks: IntIdTable() {
 
-    constructor(name: String): this() {
-        this.name = name
+    val name = varchar("name", 50).uniqueIndex()
+    val category = varchar("category", 50)
 
-    }
-
-    var name: String by property<String>()
-    fun nameProperty() = getProperty(Task::name)
-
-    val timeSource = TimeSource.Monotonic
-
-    var lastStart: TimeMark by property<TimeMark>()
-    var beforeDuration: Duration by property<Duration>()
-
-    var currentDuration: Duration = lastStart.elapsedNow()
-    fun currentTimeProperty() = getProperty(Task::currentDuration)
-
-    override fun toString(): String = name
 }
 
-@ExperimentalTime
-class TaskModel : ItemViewModel<Task>(Task()) {
-    val name: StringProperty = bind { item?.nameProperty() }
-    val currentTime: Property<Duration> = bind { item?.currentTimeProperty() }
+class Task(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<Task>(Tasks)
+    var name by Tasks.name
+    var category by Tasks.category
 }
