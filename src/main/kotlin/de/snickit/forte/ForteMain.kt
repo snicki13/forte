@@ -5,12 +5,17 @@ import de.snickit.forte.view.ForteApp
 import javafx.application.Application
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.io.FileInputStream
+import java.util.*
 
 object ForteMain {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        Database.connect("jdbc:sqlite:forte.db")
+        val prop = Properties()
+        ClassLoader.getSystemResourceAsStream("database.properties").use { prop.load(it) }
+
+        Database.connect(prop.getProperty("jdbcUrl"))
         transaction {
             SchemaUtils.createMissingTablesAndColumns(Tasks, WorkingSessions)
         }

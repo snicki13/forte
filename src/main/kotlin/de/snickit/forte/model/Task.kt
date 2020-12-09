@@ -10,6 +10,7 @@ object Tasks: IntIdTable() {
 
     val name = varchar("name", 50).uniqueIndex()
     val category = varchar("category", 50)
+    val color = varchar("color", length = 6)
 
 }
 
@@ -17,6 +18,9 @@ class Task(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Task>(Tasks)
     var name by Tasks.name
     var category by Tasks.category
+    var color by Tasks.color
+
+    fun getTitle() = "$name ($category)"
 }
 
 object TaskQueries {
