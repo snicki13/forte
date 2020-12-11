@@ -2,12 +2,14 @@ package de.snickit.forte.view
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
+import javafx.geometry.Insets
 import javafx.geometry.Pos
 import tornadofx.*
 
 class Styles : Stylesheet() {
     companion object {
 
+        val taskViewElement by cssclass()
         val strikethrough by cssclass()
         val itemRoot by cssclass()
         val closeIcon by cssclass()
@@ -17,6 +19,7 @@ class Styles : Stylesheet() {
         val mainCheckBox by cssclass()
         val header by cssclass()
         val footer by cssclass()
+        val largeRectPicker by cssclass()
 
         fun closeIcon() = FontAwesomeIconView(FontAwesomeIcon.CLOSE).apply {
             glyphSize = 22
@@ -82,6 +85,23 @@ class Styles : Stylesheet() {
             spacing = 20.px
             Stylesheet.star {
                 spacing = 10.px
+            }
+        }
+
+        taskViewElement {
+            borderRadius = multi(box(20.px))
+        }
+
+        largeRectPicker {
+            alignment = Pos.CENTER_RIGHT
+            colorLabelVisible = false
+            maxWidth = Dimension(30.0, Dimension.LinearUnits.px)
+            maxHeight = Dimension(20.0, Dimension.LinearUnits.px)
+            fontSize = Dimension(0.0, Dimension.LinearUnits.px)
+            colorRect {
+                maxWidth = Dimension(5.0, Dimension.LinearUnits.px)
+                maxHeight = Dimension(5.0, Dimension.LinearUnits.px)
+
             }
         }
     }

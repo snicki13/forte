@@ -4,6 +4,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
 
 object Tasks: IntIdTable() {
@@ -28,7 +29,7 @@ object TaskQueries {
     private val selectActiveTaskQuery = Tasks
         .innerJoin(WorkingSessions)
         .slice(Tasks.columns)
-        .select { WorkingSessions.endTime.isNull() }
+        .select { Tasks.id eq WorkingSessions.task }.andWhere { WorkingSessions.endTime.isNull() }
 
     fun selectActiveTask() = Task.wrapRows(selectActiveTaskQuery).toList()
 

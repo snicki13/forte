@@ -15,7 +15,7 @@ object ForteMain {
         val prop = Properties()
         ClassLoader.getSystemResourceAsStream("database.properties").use { prop.load(it) }
 
-        Database.connect(prop.getProperty("jdbcUrl"))
+        Database.connect(prop.getProperty("jdbcUrl"), prop.getProperty("jdbcDriver"), prop.getProperty("jdbcUsername"), prop.getProperty("jdbcPassword"))
         transaction {
             SchemaUtils.createMissingTablesAndColumns(Tasks, WorkingSessions)
         }

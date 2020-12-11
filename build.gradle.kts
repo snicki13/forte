@@ -28,6 +28,10 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation("org.xerial:sqlite-jdbc:3.32.3.2")
+    implementation("org.postgresql:postgresql:42.2.18")
+    implementation("mysql:mysql-connector-java:8.0.22")
+
+
 }
 
 tasks.withType<KotlinCompile> {
