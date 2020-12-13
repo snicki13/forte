@@ -21,5 +21,30 @@
       <option name="name" value="exposed" />
       <option name="url" value="https://dl.bintray.com/kotlin/exposed" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="BintrayJCenter" />
+      <option name="name" value="BintrayJCenter" />
+      <option name="url" value="https://jcenter.bintray.com/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="fontawesome-fx" />
+      <option name="name" value="fontawesome-fx" />
+      <option name="url" value="https://dl.bintray.com/jerady/maven" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="fontawesome-fx" />
+      <option name="name" value="fontawesome-fx" />
+      <option name="url" value="https://bintray.com/jerady/maven/FontAwesomeFX" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jcenter" />
+      <option name="name" value="jcenter" />
+      <option name="url" value="http://jcenter.bintray.com" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jcenter" />
+      <option name="name" value="jcenter" />
+      <option name="url" value="https://jcenter.bintray.com" />
+    </remote-repository>
   </component>
 </project>

@@ -24,7 +24,8 @@ object AddTaskView: View() {
             backgroundRadius = multi(box(10.px))
         }
         center = button {
-            graphic = ImageView("outline_add_circle_outline_black_18dp.png")
+            graphic = Styles.addIcon()
+            addClass(Styles.addButton)
             onAction = EventHandler {
                 getModalDialog().showAndWait()
             }

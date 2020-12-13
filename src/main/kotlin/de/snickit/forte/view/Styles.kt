@@ -1,14 +1,18 @@
 package de.snickit.forte.view
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
-import javafx.geometry.Insets
+import de.jensd.fx.glyphs.materialicons.MaterialIcon
+import de.jensd.fx.glyphs.materialicons.MaterialIconView
 import javafx.geometry.Pos
+import javafx.scene.paint.Color
 import tornadofx.*
 
 class Styles : Stylesheet() {
     companion object {
 
+        val startStopButton by cssclass()
+        val addButton by cssclass()
+        val editButton by cssclass()
+        val removeButton by cssclass()
         val taskViewElement by cssclass()
         val strikethrough by cssclass()
         val itemRoot by cssclass()
@@ -21,9 +25,26 @@ class Styles : Stylesheet() {
         val footer by cssclass()
         val largeRectPicker by cssclass()
 
-        fun closeIcon() = FontAwesomeIconView(FontAwesomeIcon.CLOSE).apply {
-            glyphSize = 22
-            addClass(closeIcon)
+        fun removeIcon() = MaterialIconView(MaterialIcon.REMOVE_CIRCLE_OUTLINE).apply {
+            glyphSize = 12
+            addClass(removeButton)
+        }
+
+        fun addIcon() = MaterialIconView(MaterialIcon.ADD_CIRCLE_OUTLINE).apply {
+            glyphSize = 40
+        }
+
+        fun editIcon() = MaterialIconView(MaterialIcon.EDIT).apply {
+            glyphSize = 12
+            addClass(editButton)
+        }
+
+        fun getStartButton() = MaterialIconView(MaterialIcon.PLAY_CIRCLE_OUTLINE).apply {
+            glyphSize = 20
+        }
+
+        fun getStopButton() = MaterialIconView(MaterialIcon.STOP).apply {
+            glyphSize = 20
         }
 
     }
@@ -32,14 +53,6 @@ class Styles : Stylesheet() {
         strikethrough {
             Stylesheet.text {
                 strikethrough = true
-            }
-        }
-
-        closeIcon {
-            fill = c("#cc9a9a")
-
-            and(hover) {
-                fill = c("#af5b5e")
             }
         }
 
@@ -95,7 +108,6 @@ class Styles : Stylesheet() {
         }
 
         largeRectPicker {
-            alignment = Pos.CENTER_RIGHT
             colorLabelVisible = false
             maxWidth = Dimension(30.0, Dimension.LinearUnits.px)
             maxHeight = Dimension(20.0, Dimension.LinearUnits.px)
@@ -103,8 +115,33 @@ class Styles : Stylesheet() {
             colorRect {
                 maxWidth = Dimension(5.0, Dimension.LinearUnits.px)
                 maxHeight = Dimension(5.0, Dimension.LinearUnits.px)
-
             }
+            backgroundColor = multi(Color.TRANSPARENT)
+        }
+
+        removeButton {
+            backgroundColor = multi(Color.TRANSPARENT)
+            fill = Color.RED
+            and(hover) {
+                fill = Color.DARKRED
+            }
+        }
+
+        startStopButton {
+            alignment = Pos.CENTER
+            backgroundColor = multi(Color.TRANSPARENT)
+        }
+
+        editButton {
+            backgroundColor = multi(Color.TRANSPARENT)
+            fill = Color.GREEN
+            and(hover) {
+                fill = Color.DARKGREEN
+            }
+        }
+
+        addButton {
+            backgroundColor = multi(Color.TRANSPARENT)
         }
     }
 }
