@@ -90,6 +90,8 @@ class Styles : Stylesheet() {
 
         taskViewElement {
             borderRadius = multi(box(20.px))
+            prefHeight = 90.px
+            prefWidth = 130.px
         }
 
         largeRectPicker {

@@ -1,5 +1,6 @@
 package de.snickit.forte.model
 
+import javafx.beans.property.StringProperty
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -27,6 +28,7 @@ class WorkingSession(id: EntityID<Int>) : IntEntity(id) {
     var endTime by WorkingSessions.endTime
 
     fun getElapsedTimeInSeconds(): Long = startingTime?.until(endTime ?: LocalDateTime.now(), ChronoUnit.SECONDS) ?: 0
+
 }
 
 object WorkingSessionQueries {
@@ -36,7 +38,7 @@ object WorkingSessionQueries {
             return@transaction WorkingSession.wrapRows(WorkingSessions
                 .slice(WorkingSessions.columns)
                 .select { WorkingSessions.task eq task.id }
-                .orderBy(WorkingSessions.startingTime, SortOrder.DESC)).firstOrNull()
+                .orderBy(WorkingSessions.id, SortOrder.DESC)).firstOrNull()
         }
     }
 

@@ -23,5 +23,3 @@ object ForteMain {
         Application.launch(ForteApp::class.java, *args)
     }
 }
-
-

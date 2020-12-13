@@ -9,9 +9,9 @@ import org.jetbrains.exposed.sql.select
 
 object Tasks: IntIdTable() {
 
-    val name = varchar("name", 50).uniqueIndex()
+    val name = varchar("name", 50)
     val category = varchar("category", 50)
-    val color = varchar("color", length = 6)
+    val color = varchar("color", length = 10)
 
 }
 
