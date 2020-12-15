@@ -1,7 +1,7 @@
-package de.snickit.forte.view
+package de.snickit.forte.view.main
 
 import de.snickit.forte.controller.ForteController
-import javafx.beans.property.StringProperty
+import de.snickit.forte.view.Styles
 import tornadofx.*
 
 class Header : View() {

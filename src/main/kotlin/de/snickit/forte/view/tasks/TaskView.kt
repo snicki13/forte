@@ -1,4 +1,4 @@
-package de.snickit.forte.view
+package de.snickit.forte.view.tasks
 
 import de.snickit.forte.controller.ForteController
 import javafx.geometry.Insets

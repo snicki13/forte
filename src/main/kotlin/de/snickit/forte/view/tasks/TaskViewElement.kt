@@ -1,8 +1,11 @@
-package de.snickit.forte.view
+package de.snickit.forte.view.tasks
 
+import de.snickit.forte.Utility
+import de.snickit.forte.Utility.getElapsedTimeString
 import de.snickit.forte.controller.ForteController
 import de.snickit.forte.model.Task
 import de.snickit.forte.model.WorkingSession
+import de.snickit.forte.view.Styles
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
 import javafx.application.Platform
@@ -43,12 +46,12 @@ class TaskViewElement(private val task: Task) : View("TaskViewElement") {
             forteController.setActiveWorkingSession(workingSession, this)
         }
         label = label {
-            text = workingSession.getElapsedTimeString()
+            text = workingSession.getElapsedTime().getElapsedTimeString()
         }
         timeline = timeline(false) {
             cycleCount = Timeline.INDEFINITE
             keyFrames += KeyFrame(seconds(1.0), EventHandler {
-                label.text = workingSession.getElapsedTimeString()
+                label.text = workingSession.getElapsedTime().getElapsedTimeString()
             })
             if (task.active) {
                 play()

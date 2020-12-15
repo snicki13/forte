@@ -1,7 +1,7 @@
 package de.snickit.forte.controller
 
 import de.snickit.forte.model.*
-import de.snickit.forte.view.TaskViewElement
+import de.snickit.forte.view.tasks.TaskViewElement
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
@@ -49,7 +49,7 @@ class ForteController : Controller() {
             if (latestSession == null || latestSession.endTime != null) {
                 logger.info("Create new WorkingSession for Task {}", task.id.value)
                 WorkingSession.new {
-                    this.task = task.id
+                    this.task = task
                 }
             } else {
                 latestSession
@@ -58,9 +58,9 @@ class ForteController : Controller() {
     }
 
     fun startWorkingSession(workingSession: WorkingSession, taskViewElement: TaskViewElement): WorkingSession {
-        logger.info("Stop session of Task {}", activeSession?.task?.value)
-        logger.info("Start session of Task {}", workingSession.task.value)
         transaction {
+            logger.info("Stop session of Task {}", activeSession?.task?.name)
+            logger.info("Start session of Task {}", workingSession.task.name)
             activeSession?.stopSession()
             activeSession = workingSession.startSession()
         }
@@ -70,11 +70,11 @@ class ForteController : Controller() {
     }
 
     fun stopWorkingSession(workingSession: WorkingSession): WorkingSession {
-        logger.info("Stop session of Task {}", workingSession.task.value)
         this.activeSession = null
         return transaction {
+            logger.info("Stop session of Task {}", workingSession.task.name)
             workingSession.stopSession()
-            if (workingSession.getElapsedTimeInSeconds() < 5) {
+            if (workingSession.getElapsedTime().seconds < 5) {
                 workingSession.delete()
             }
             return@transaction WorkingSession.new {
@@ -84,10 +84,18 @@ class ForteController : Controller() {
     }
 
     fun setActiveWorkingSession(workingSession: WorkingSession, taskViewElement: TaskViewElement) {
-        logger.info("Active session of task {}", workingSession.task.value)
+        if (logger.isInfoEnabled) {
+            transaction {
+                logger.info("Active session of task {}", workingSession.task.name)
+            }
+        }
         assert(activeSession == null)
         assert(activeView == null)
         this.activeSession = workingSession
         this.activeView = taskViewElement
+    }
+
+    fun stopActiveSession() {
+        activeSession?.let { stopWorkingSession(it) }
     }
 }

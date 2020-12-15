@@ -1,12 +1,12 @@
-package de.snickit.forte.view
+package de.snickit.forte.view.tasks
 
 import de.snickit.forte.controller.ForteController
 import de.snickit.forte.model.Task
+import de.snickit.forte.view.Styles
 import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.scene.control.*
-import javafx.scene.image.ImageView
 import tornadofx.*
 
 import javafx.scene.layout.GridPane

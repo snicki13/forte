@@ -1,11 +1,16 @@
 package de.snickit.forte
+import de.snickit.forte.controller.ForteController
 import de.snickit.forte.model.Tasks
 import de.snickit.forte.model.WorkingSessions
-import de.snickit.forte.view.ForteApp
+import de.snickit.forte.view.Styles
+import de.snickit.forte.view.main.ForteMainView
 import javafx.application.Application
+import javafx.event.EventHandler
+import javafx.stage.Stage
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.io.FileInputStream
+import org.slf4j.LoggerFactory
+import tornadofx.App
 import java.util.*
 
 object ForteMain {
@@ -22,4 +27,22 @@ object ForteMain {
 
         Application.launch(ForteApp::class.java, *args)
     }
+
+    class ForteApp : App(ForteMainView::class, Styles::class) {
+
+        private val forteController: ForteController by inject()
+        private val logger = LoggerFactory.getLogger(this.javaClass)
+
+        override fun start(stage: Stage) {
+            super.start(stage)
+            stage.width = 570.0
+            stage.height = 400.0
+
+            stage.onCloseRequest = EventHandler {
+                forteController.stopActiveSession()
+                logger.info("Close request")
+            }
+        }
+    }
 }
+
