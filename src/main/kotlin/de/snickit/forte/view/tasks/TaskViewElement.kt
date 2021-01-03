@@ -1,6 +1,5 @@
 package de.snickit.forte.view.tasks
 
-import de.snickit.forte.Utility
 import de.snickit.forte.Utility.getElapsedTimeString
 import de.snickit.forte.controller.ForteController
 import de.snickit.forte.model.Task
@@ -8,11 +7,9 @@ import de.snickit.forte.model.WorkingSession
 import de.snickit.forte.view.Styles
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
-import javafx.application.Platform
 import javafx.beans.binding.Bindings
 import javafx.event.EventHandler
 import javafx.geometry.Insets
-import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.layout.Background
