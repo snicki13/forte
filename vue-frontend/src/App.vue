@@ -1,18 +1,41 @@
 <template>
   <div id="app">
+    <ForteHeader> </ForteHeader>
     <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <MainTaskView tasks="tasks" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
+import MainTaskView from "@/components/MainTaskView.vue";
+import TaskViewElement from "@/components/TaskViewElement.vue";
+import ForteHeader from "@/components/ForteHeader.vue";
+import axios from "axios";
+import Task from "@/logic/Task";
 
 @Component({
   components: {
-    HelloWorld
-  }
+    ForteHeader,
+    MainTaskView,
+    TaskViewElement
+  },
+  data() {
+    return {
+      tasks: {
+        type: [] as Task[]
+      }
+    };
+  },
+  created() {
+    axios({
+      baseURL: "http://localhost:8000/tasks",
+      method: "GET"
+    }).then(response => {
+      this.$data.tasks = response.data;
+    });
+  },
+  methods: {}
 })
 export default class App extends Vue {}
 </script>

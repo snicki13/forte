@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 import tornadofx.Controller
 import tornadofx.SortedFilteredList
 
-class ForteController : Controller() {
+object ForteController : Controller() {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val tasks = SortedFilteredList<Task>(initialPredicate = {

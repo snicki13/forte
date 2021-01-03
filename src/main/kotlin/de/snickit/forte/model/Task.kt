@@ -42,5 +42,16 @@ class Task(id: EntityID<Int>) : IntEntity(id) {
         }
         return sum
     }
+
+    public fun toTaskDTO(): TaskDTO {
+        return TaskDTO(id.value, name, category, color);
+    }
 }
+
+data class TaskDTO(
+    val id: Int,
+    val name: String,
+    val category: String,
+    val color: String
+)
 
