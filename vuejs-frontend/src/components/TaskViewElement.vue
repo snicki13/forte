@@ -6,12 +6,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import Task from "@/logic/Task";
 
-@Component
-export default class TaskViewElement extends Vue {
-  @Prop() private task!: Task;
+export default {
+  name: 'TaskViewElement',
+  props: {
+    task: Task
+  }
 }
 </script>
 

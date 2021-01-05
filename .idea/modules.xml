@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/vue-frontend/vue-frontend.iml" filepath="$PROJECT_DIR$/vue-frontend/vue-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vuejs-frontend/vuejs-frontend.iml" filepath="$PROJECT_DIR$/vuejs-frontend/vuejs-frontend.iml" />
     </modules>
   </component>
 </project>

@@ -6,38 +6,31 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import MainTaskView from "@/components/MainTaskView.vue";
-import TaskViewElement from "@/components/TaskViewElement.vue";
-import ForteHeader from "@/components/ForteHeader.vue";
+<script>
+import ForteHeader from "@/components/ForteHeader";
+import MainTaskView from "@/components/MainTaskView";
 import axios from "axios";
-import Task from "@/logic/Task";
 
-@Component({
+export default {
+  name: 'App',
   components: {
     ForteHeader,
-    MainTaskView,
-    TaskViewElement
+    MainTaskView
   },
-  data() {
+  data: function() {
     return {
-      tasks: {
-        type: [] as Task[]
-      }
+      tasks: []
     };
   },
-  created() {
+  mounted() {
     axios({
       baseURL: "http://localhost:8000/tasks",
       method: "GET"
     }).then(response => {
-      this.$data.tasks = response.data;
+      this.data.tasks = response.data;
     });
   },
-  methods: {}
-})
-export default class App extends Vue {}
+}
 </script>
 
 <style lang="scss">

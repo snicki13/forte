@@ -1,4 +1,4 @@
-# untitled
+# vuejs-frontend
 
 ## Project setup
 ```

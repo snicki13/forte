@@ -8,16 +8,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import TaskViewElement from "@/components/TaskViewElement.vue";
-import Task from "@/logic/Task";
+<script>
 
-@Component({
-  components: { TaskViewElement }
-})
-export default class MainTaskView extends Vue {
-  @Prop() private tasks!: Task[];
+import TaskViewElement from "@/components/TaskViewElement";
+
+export default {
+  name: 'MainTaskView',
+  props: {
+    tasks: Array
+  },
+  components: {
+    TaskViewElement
+  }
 }
 </script>
 
