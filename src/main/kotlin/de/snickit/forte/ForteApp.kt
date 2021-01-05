@@ -22,7 +22,7 @@ import kotlin.system.exitProcess
 
 class ForteApp: App(ForteMainView::class, Styles::class) {
 
-    lateinit var stage: Stage
+    private lateinit var stage: Stage
 
     override fun start(stage: Stage) {
         SwingUtilities.invokeLater {
@@ -104,7 +104,7 @@ class ForteApp: App(ForteMainView::class, Styles::class) {
     private fun openBrowser() {
         HttpServer.start()
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            Desktop.getDesktop().browse(URI("http://localhost:${Utility.getProperty("http.port")}"));
+            Desktop.getDesktop().browse(URI("http://localhost:${Utility.getProperty("http.port")}"))
         }
     }
 

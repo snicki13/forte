@@ -10,7 +10,7 @@ import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
-import io.ktor.server.jetty.*
+import io.ktor.server.netty.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
@@ -27,7 +27,7 @@ object HttpServer: Component() {
 
     private var isRunning: Boolean = false
 
-    val applicationServer = embeddedServer(Netty, port = Utility.getProperty("http.port").toInt()) {
+    private val applicationServer = embeddedServer(Netty, port = Utility.getProperty("http.port").toInt()) {
         install(ContentNegotiation) {
             jackson()
         }
