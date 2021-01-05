@@ -22,15 +22,13 @@ repositories {
         name = "jcenter"
         url = uri("https://jcenter.bintray.com")
     }
-
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("no.tornado:tornadofx:1.7.20")
-    implementation("de.jensd:fontawesomefx-commons:11.0")
-    implementation("de.jensd:fontawesomefx-materialicons:2.2.0-11")
-    implementation("de.jensd:fontawesomefx-materialstackicons:2.1-11")
+    implementation("de.jensd:fontawesomefx-commons:8.15")
+    implementation("de.jensd:fontawesomefx-materialicons:2.2.0-5")
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
@@ -48,7 +46,7 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 sourceSets.main {
