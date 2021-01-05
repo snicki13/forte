@@ -2,10 +2,12 @@ package de.snickit.forte.view.tasks
 
 import de.snickit.forte.controller.ForteController
 import javafx.geometry.Insets
+import org.koin.core.component.inject
 import tornadofx.*
 
 class TaskView : View("My View") {
-    private val controller: ForteController by inject()
+    private val forteController by inject<ForteController>()
+
 
     override val root = flowpane {
 
@@ -15,7 +17,7 @@ class TaskView : View("My View") {
         this.vgap = 10.0
         this.hgap = 10.0
 
-        controller.getTasks().onChange {
+        forteController.getTasks().onChange {
             if (it.next()) {
                 it.addedSubList.forEach { task ->
                     this.children.remove(children.last())
@@ -25,7 +27,7 @@ class TaskView : View("My View") {
             }
         }
 
-        controller.getTasks().forEach {
+        forteController.getTasks().forEach {
             this.add(TaskViewElement(it))
         }
 

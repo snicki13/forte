@@ -2,16 +2,18 @@ package de.snickit.forte.controller
 
 import de.snickit.forte.model.*
 import de.snickit.forte.view.tasks.TaskViewElement
+import javafx.collections.ObservableList
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
 import tornadofx.Controller
 import tornadofx.SortedFilteredList
 
-object ForteController : Controller() {
+class ForteController : Controller() {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
-    private val tasks = SortedFilteredList<Task>(initialPredicate = {
+
+    val tasks = SortedFilteredList<Task>(initialPredicate = {
         it.active
     })
 
@@ -21,10 +23,12 @@ object ForteController : Controller() {
         }
     }
 
-    private var activeSession: WorkingSession? = null
-    private var activeView: TaskViewElement? = null
+    var activeSession: WorkingSession? = null
+    var activeView: TaskViewElement? = null
 
-    fun getTasks() = tasks.items
+    fun getTasks(): ObservableList<Task> {
+        return tasks.items
+    }
 
     fun addTask(name: String, category: String, color: String): Task {
         return transaction {

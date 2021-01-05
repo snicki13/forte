@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane
 
 object AddTaskView: View() {
 
-    private val forteController: ForteController by inject()
+    private val forteController by inject<ForteController>()
 
     override val root = borderpane {
         this.addClass(Styles.taskViewElement)

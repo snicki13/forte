@@ -9,8 +9,9 @@ import tornadofx.*
 import java.time.LocalDate
 
 class Footer : View() {
-    private val controller: ForteController by inject()
-    private val itemsActive = integerBinding(controller.getTasks()) { count() }
+    private val forteController by inject<ForteController>()
+
+    private val itemsActive = integerBinding(forteController.getTasks()) { count() }
 
     override val root = hbox {
         addClass(Styles.footer)
@@ -18,7 +19,7 @@ class Footer : View() {
         add(region {hgrow = Priority.ALWAYS})
         add(button("Daily Result") {
             onAction = EventHandler {
-                DailyResultView(controller.getTasks(), LocalDate.now()).show()
+                DailyResultView(forteController.getTasks(), LocalDate.now()).show()
             }
         })
     }
