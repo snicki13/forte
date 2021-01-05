@@ -10,11 +10,12 @@ import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.server.jetty.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.slf4j.event.Level
 import tornadofx.Component
 import java.util.concurrent.TimeUnit
 
@@ -27,16 +28,20 @@ object HttpServer: Component() {
     private var isRunning: Boolean = false
 
     val applicationServer = embeddedServer(Netty, port = Utility.getProperty("http.port").toInt()) {
-       install(ContentNegotiation) {
-           jackson()
-       }
-       routing {
-           staticContent()
-           getTasks()
-           get("/test") {
-               call.respondText("Hello World")
-           }
-       }
+        install(ContentNegotiation) {
+            jackson()
+        }
+        install(CallLogging) {
+            logger = LoggerFactory.getLogger("HTTP Request")
+            level = Level.INFO
+        }
+        routing {
+            staticContent()
+            getTasks()
+            get("/test") {
+                call.respondText("Hello World")
+            }
+        }
    }
 
     private fun Routing.getTasks() {

@@ -55,7 +55,7 @@ sourceSets.main {
 }
 
 // Include dependent libraries in archive.
-var mainClassName = "de.snickit.forte.ForteMain"
+var mainClassName = "de.snickit.forte.ForteApp"
 
 val fatJar = task("fatJar", type = Jar::class) {
     baseName = "${project.name}-standalone"

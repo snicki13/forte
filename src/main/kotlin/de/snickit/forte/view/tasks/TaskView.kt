@@ -2,12 +2,10 @@ package de.snickit.forte.view.tasks
 
 import de.snickit.forte.controller.ForteController
 import javafx.geometry.Insets
-import org.koin.core.component.inject
 import tornadofx.*
 
 class TaskView : View("My View") {
     private val forteController by inject<ForteController>()
-
 
     override val root = flowpane {
 
