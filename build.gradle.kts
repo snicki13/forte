@@ -4,6 +4,7 @@ val ktorVersion: String by project
 val exposedVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
+val koinVersion: String by project
 
 plugins {
     application
@@ -42,6 +43,7 @@ dependencies {
     implementation("io.ktor:ktor-server-host-common:$ktorVersion")
     implementation("io.ktor:ktor-auth:$ktorVersion")
     implementation("io.ktor:ktor-jackson:$ktorVersion")
+    implementation("org.koin:koin-core:$koinVersion")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }
 

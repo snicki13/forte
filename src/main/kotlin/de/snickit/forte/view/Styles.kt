@@ -60,7 +60,7 @@ class Styles : Stylesheet() {
             padding = box(8.px)
             Stylesheet.button {
                 backgroundColor += c("transparent")
-                padding = box(-2.px)
+                padding = box((-2).px)
             }
             alignment = Pos.CENTER_LEFT
         }

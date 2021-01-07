@@ -1,7 +1,7 @@
 package de.snickit.forte.view.results
 
-import de.snickit.forte.model.Task
-import de.snickit.forte.model.TaskResult
+import de.snickit.forte.persistence.Task
+import de.snickit.forte.persistence.TaskResult
 import javafx.collections.ObservableList
 import javafx.scene.control.ButtonType
 import javafx.scene.control.Dialog

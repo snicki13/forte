@@ -1,13 +1,12 @@
-package de.snickit.forte.model
+package de.snickit.forte.persistence
 
 import de.snickit.forte.Utility.getElapsedTimeString
-import tornadofx.observable
 import java.time.LocalDate
 
 data class TaskResult(val task: Task, val date: LocalDate) {
 
-    val name = task.name
-    val category = task.category
+    val name = task.task
+    val category = task.project
     val duration = task.getFullDurationPerDay(date).getElapsedTimeString()
 
 }

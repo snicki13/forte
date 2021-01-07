@@ -9,7 +9,7 @@ import tornadofx.*
 import java.time.LocalDate
 
 class Footer : View() {
-    private val forteController by inject<ForteController>()
+    private val forteController by di<ForteController>()
 
     private val itemsActive = integerBinding(forteController.getTasks()) { count() }
 

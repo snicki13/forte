@@ -2,7 +2,7 @@ package de.snickit.forte.server
 
 import de.snickit.forte.Utility
 import de.snickit.forte.controller.ForteController
-import de.snickit.forte.model.Task
+import de.snickit.forte.persistence.Task
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.content.*
@@ -13,13 +13,14 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
-import tornadofx.Component
 import java.util.concurrent.TimeUnit
 
-object HttpServer: Component() {
+object HttpServer: KoinComponent {
 
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -34,6 +35,10 @@ object HttpServer: Component() {
         install(CallLogging) {
             logger = LoggerFactory.getLogger("HTTP Request")
             level = Level.INFO
+        }
+        install(CORS) {
+            anyHost()
+            host("localhost")
         }
         routing {
             staticContent()

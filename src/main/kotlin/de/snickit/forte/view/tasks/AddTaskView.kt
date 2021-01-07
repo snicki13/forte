@@ -1,7 +1,8 @@
 package de.snickit.forte.view.tasks
 
+import de.snickit.forte.Utility.toHexString
 import de.snickit.forte.controller.ForteController
-import de.snickit.forte.model.Task
+import de.snickit.forte.persistence.Task
 import de.snickit.forte.view.Styles
 import javafx.application.Platform
 import javafx.event.EventHandler
@@ -11,10 +12,9 @@ import tornadofx.*
 
 import javafx.scene.layout.GridPane
 
-
 object AddTaskView: View() {
 
-    private val forteController by inject<ForteController>()
+    private val forteController by di<ForteController>()
 
     override val root = borderpane {
         this.addClass(Styles.taskViewElement)
@@ -79,7 +79,7 @@ object AddTaskView: View() {
         dialog.setResultConverter { dialogButton ->
             if (dialogButton === ButtonType.OK) {
 
-                return@setResultConverter forteController.addTask(task.text, category.text, colorPicker.value.toString())
+                return@setResultConverter forteController.addTask(task.text, category.text, colorPicker.value.toHexString())
             }
             null
         }

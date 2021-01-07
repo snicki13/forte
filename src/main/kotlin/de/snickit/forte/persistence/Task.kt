@@ -1,5 +1,6 @@
-package de.snickit.forte.model
+package de.snickit.forte.persistence
 
+import de.snickit.forte.Utility.sumDuration
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -10,22 +11,22 @@ import java.time.LocalDate
 
 object Tasks: IntIdTable() {
 
-    val name = varchar("name", 50)
-    val category = varchar("category", 50)
+    val project = reference("projectName", Projects.project)
+    val task = varchar("name", length = 50)
     val color = varchar("color", length = 10)
 }
 
 class Task(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Task>(Tasks)
-    var name by Tasks.name
-    var category by Tasks.category
+    var task by Tasks.task
+    var project by Tasks.project
     var color by Tasks.color
 
     private val workingSessions by WorkingSession referrersOn WorkingSessions.task
 
     var active: Boolean = false
 
-    fun getTitle() = "$name ($category)"
+    fun getTitle() = "$task ($project)"
 
     fun getFullDurationPerDay(date: LocalDate): Duration {
         return transaction {
@@ -35,16 +36,8 @@ class Task(id: EntityID<Int>) : IntEntity(id) {
         }
     }
 
-    private inline fun <T> Iterable<T>.sumDuration(selector: (T) -> Duration): Duration {
-        var sum = Duration.ZERO
-        for (element in this) {
-            sum = sum.plus(selector(element))
-        }
-        return sum
-    }
-
-    public fun toTaskDTO(): TaskDTO {
-        return TaskDTO(id.value, name, category, color);
+    fun toTaskDTO(): TaskDTO {
+        return TaskDTO(id.value, task, project, color);
     }
 }
 

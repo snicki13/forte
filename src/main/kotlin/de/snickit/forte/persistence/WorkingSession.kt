@@ -1,4 +1,4 @@
-package de.snickit.forte.model
+package de.snickit.forte.persistence
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -10,8 +10,6 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
-import java.util.concurrent.TimeUnit
 
 object WorkingSessions: IntIdTable() {
     val task = reference("task", Tasks)

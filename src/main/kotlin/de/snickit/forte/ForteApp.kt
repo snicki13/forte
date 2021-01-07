@@ -1,7 +1,7 @@
 package de.snickit.forte
 
-import de.snickit.forte.model.Tasks
-import de.snickit.forte.model.WorkingSessions
+import de.snickit.forte.persistence.Tasks
+import de.snickit.forte.persistence.WorkingSessions
 import de.snickit.forte.server.HttpServer
 import de.snickit.forte.view.Styles
 import de.snickit.forte.view.main.ForteMainView
@@ -19,6 +19,15 @@ import java.net.URI
 import javax.imageio.ImageIO
 import javax.swing.SwingUtilities
 import kotlin.system.exitProcess
+
+import de.snickit.forte.controller.ForteController
+import org.koin.core.component.KoinComponent
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
+import tornadofx.DIContainer
+import tornadofx.FX
+import kotlin.reflect.KClass
+
 
 class ForteApp: App(ForteMainView::class, Styles::class) {
 
@@ -116,8 +125,21 @@ class ForteApp: App(ForteMainView::class, Styles::class) {
             transaction {
                 SchemaUtils.createMissingTablesAndColumns(Tasks, WorkingSessions)
             }
+            val controllerModule = module {
+                single { ForteController() }
+            }
+            startKoin {
+                // your modules
+                modules(controllerModule)
+            }
+
+            FX.dicontainer = object : DIContainer, KoinComponent {
+                override fun <T : Any> getInstance(type: KClass<T>): T {
+                    return getKoin().get(clazz = type, qualifier = null, parameters = null)
+                }
+            }
+
             launch<ForteApp>(*args)
         }
-
     }
 }

@@ -1,6 +1,6 @@
 package de.snickit.forte.controller
 
-import de.snickit.forte.model.*
+import de.snickit.forte.persistence.*
 import de.snickit.forte.view.tasks.TaskViewElement
 import javafx.collections.ObservableList
 import org.jetbrains.exposed.sql.and
@@ -9,19 +9,13 @@ import org.slf4j.LoggerFactory
 import tornadofx.Controller
 import tornadofx.SortedFilteredList
 
-class ForteController : Controller() {
+class ForteController: Controller() {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
     val tasks = SortedFilteredList<Task>(initialPredicate = {
         it.active
     })
-
-    init {
-        transaction {
-            tasks.addAll(Task.all())
-        }
-    }
 
     var activeSession: WorkingSession? = null
     var activeView: TaskViewElement? = null
@@ -30,13 +24,13 @@ class ForteController : Controller() {
         return tasks.items
     }
 
-    fun addTask(name: String, category: String, color: String): Task {
+    fun addTask(name: String, project: String, color: String): Task {
         return transaction {
-            val taskIterator = Task.find { (Tasks.name eq name).and(Tasks.category eq category)}
+            val taskIterator = Task.find { (Tasks.task eq name).and(Tasks.project eq project)}
             return@transaction if (taskIterator.count() == 0L) {
                 val task = Task.new {
-                    this.name = name
-                    this.category = category
+                    this.task = name
+                    this.project = project
                     this.color = color
                 }
                 tasks.add(task)
@@ -63,8 +57,8 @@ class ForteController : Controller() {
 
     fun startWorkingSession(workingSession: WorkingSession, taskViewElement: TaskViewElement): WorkingSession {
         transaction {
-            logger.info("Stop session of Task {}", activeSession?.task?.name)
-            logger.info("Start session of Task {}", workingSession.task.name)
+            logger.info("Stop session of Task {}", activeSession?.task?.task)
+            logger.info("Start session of Task {}", workingSession.task.task)
             activeSession?.stopSession()
             activeSession = workingSession.startSession()
         }
@@ -76,7 +70,7 @@ class ForteController : Controller() {
     fun stopWorkingSession(workingSession: WorkingSession): WorkingSession {
         this.activeSession = null
         return transaction {
-            logger.info("Stop session of Task {}", workingSession.task.name)
+            logger.info("Stop session of Task {}", workingSession.task.task)
             workingSession.stopSession()
             if (workingSession.getElapsedTime().seconds < 5) {
                 workingSession.delete()
@@ -90,7 +84,7 @@ class ForteController : Controller() {
     fun setActiveWorkingSession(workingSession: WorkingSession, taskViewElement: TaskViewElement) {
         if (logger.isInfoEnabled) {
             transaction {
-                logger.info("Active session of task {}", workingSession.task.name)
+                logger.info("Active session of task {}", workingSession.task.task)
             }
         }
         assert(activeSession == null)
@@ -101,5 +95,11 @@ class ForteController : Controller() {
 
     fun stopActiveSession() {
         activeSession?.let { stopWorkingSession(it) }
+    }
+
+    init {
+        transaction {
+            tasks.addAll(Task.all())
+        }
     }
 }

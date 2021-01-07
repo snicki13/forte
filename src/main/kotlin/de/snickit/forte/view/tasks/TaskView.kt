@@ -5,7 +5,7 @@ import javafx.geometry.Insets
 import tornadofx.*
 
 class TaskView : View("My View") {
-    private val forteController by inject<ForteController>()
+    private val forteController by di<ForteController>()
 
     override val root = flowpane {
 
