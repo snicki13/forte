@@ -2,6 +2,7 @@ package de.snickit.forte.view.tasks
 
 import de.snickit.forte.Utility.toHexString
 import de.snickit.forte.controller.ForteController
+import de.snickit.forte.persistence.Project
 import de.snickit.forte.persistence.Task
 import de.snickit.forte.view.Styles
 import javafx.application.Platform
@@ -11,6 +12,7 @@ import javafx.scene.control.*
 import tornadofx.*
 
 import javafx.scene.layout.GridPane
+import javafx.util.StringConverter
 
 object AddTaskView: View() {
 
@@ -49,14 +51,17 @@ object AddTaskView: View() {
 
         val task = TextField()
         task.promptText = "Task"
-        val category = TextField()
-        category.promptText = "Category"
+        val project = ComboBox<Project>()
+        project.converter = Project.ProjectConverter()
+        project.isEditable = true
+        project.items = forteController.getProjects()
+
         val colorPicker = ColorPicker()
 
         grid.add(Label("Task:"), 0, 0)
         grid.add(task, 1, 0)
-        grid.add(Label("Category:"), 0, 1)
-        grid.add(category, 1, 1)
+        grid.add(Label("Project:"), 0, 1)
+        grid.add(project, 1, 1)
         grid.add(Label("Farbe:"), 0, 2)
         grid.add(colorPicker, 1, 2)
 
@@ -79,7 +84,7 @@ object AddTaskView: View() {
         dialog.setResultConverter { dialogButton ->
             if (dialogButton === ButtonType.OK) {
 
-                return@setResultConverter forteController.addTask(task.text, category.text, colorPicker.value.toHexString())
+                return@setResultConverter forteController.addTask(task.text, project.value, colorPicker.value.toHexString())
             }
             null
         }

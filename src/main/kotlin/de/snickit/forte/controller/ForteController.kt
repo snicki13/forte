@@ -2,8 +2,11 @@ package de.snickit.forte.controller
 
 import de.snickit.forte.persistence.*
 import de.snickit.forte.view.tasks.TaskViewElement
+import javafx.collections.FXCollections
 import javafx.collections.ObservableList
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
 import tornadofx.Controller
@@ -13,9 +16,11 @@ class ForteController: Controller() {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
-    val tasks = SortedFilteredList<Task>(initialPredicate = {
+    private val tasks = SortedFilteredList<Task>(initialPredicate = {
         it.active
     })
+
+    private val projects: ObservableList<Project> = FXCollections.observableArrayList()
 
     var activeSession: WorkingSession? = null
     var activeView: TaskViewElement? = null
@@ -24,9 +29,9 @@ class ForteController: Controller() {
         return tasks.items
     }
 
-    fun addTask(name: String, project: String, color: String): Task {
+    fun addTask(name: String, project: Project, color: String): Task {
         return transaction {
-            val taskIterator = Task.find { (Tasks.task eq name).and(Tasks.project eq project)}
+            val taskIterator = Task.find { (Tasks.task eq name).and(Tasks.project eq project.project)}
             return@transaction if (taskIterator.count() == 0L) {
                 val task = Task.new {
                     this.task = name
@@ -97,8 +102,13 @@ class ForteController: Controller() {
         activeSession?.let { stopWorkingSession(it) }
     }
 
+    fun getProjects(): ObservableList<Project> {
+        return projects
+    }
+
     init {
         transaction {
+            projects.addAll(Project.all())
             tasks.addAll(Task.all())
         }
     }

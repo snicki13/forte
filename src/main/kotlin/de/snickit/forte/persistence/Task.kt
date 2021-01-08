@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 object Tasks: IntIdTable() {
 
-    val project = reference("projectName", Projects.project)
+    val project = reference("project", Projects.id)
     val task = varchar("name", length = 50)
     val color = varchar("color", length = 10)
 }
@@ -19,14 +19,14 @@ object Tasks: IntIdTable() {
 class Task(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Task>(Tasks)
     var task by Tasks.task
-    var project by Tasks.project
+    var project by Project referencedOn Tasks.project
     var color by Tasks.color
 
     private val workingSessions by WorkingSession referrersOn WorkingSessions.task
 
     var active: Boolean = false
 
-    fun getTitle() = "$task ($project)"
+    fun getTitle() = transaction { "$task (${project.project})" }
 
     fun getFullDurationPerDay(date: LocalDate): Duration {
         return transaction {
@@ -37,7 +37,7 @@ class Task(id: EntityID<Int>) : IntEntity(id) {
     }
 
     fun toTaskDTO(): TaskDTO {
-        return TaskDTO(id.value, task, project, color);
+        return transaction { return@transaction TaskDTO(this@Task.id.value, task, project.project.value, color) }
     }
 }
 

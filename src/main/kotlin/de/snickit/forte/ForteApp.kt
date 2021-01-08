@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities
 import kotlin.system.exitProcess
 
 import de.snickit.forte.controller.ForteController
+import de.snickit.forte.persistence.Projects
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -123,7 +124,7 @@ class ForteApp: App(ForteMainView::class, Styles::class) {
         fun main(args: Array<String>) {
             Database.connect(Utility.getProperty("jdbcUrl"), Utility.getProperty("jdbcDriver"), Utility.getProperty("jdbcUsername"), Utility.getProperty("jdbcPassword"))
             transaction {
-                SchemaUtils.createMissingTablesAndColumns(Tasks, WorkingSessions)
+                SchemaUtils.createMissingTablesAndColumns(Projects, Tasks, WorkingSessions)
             }
             val controllerModule = module {
                 single { ForteController() }
