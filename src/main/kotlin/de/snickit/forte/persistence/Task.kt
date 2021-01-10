@@ -19,14 +19,18 @@ object Tasks: IntIdTable() {
 class Task(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Task>(Tasks)
     var task by Tasks.task
-    var project by Project referencedOn Tasks.project
+    private var projectFk by Project referencedOn Tasks.project
+    var project: Project
+        get() = transaction { return@transaction this@Task.projectFk }
+        set(value) = transaction { this@Task.projectFk = value }
+
     var color by Tasks.color
 
     private val workingSessions by WorkingSession referrersOn WorkingSessions.task
 
     var active: Boolean = false
 
-    fun getTitle() = transaction { "$task (${project.project})" }
+    fun getTitle() = "$task (${project.project})"
 
     fun getFullDurationPerDay(date: LocalDate): Duration {
         return transaction {
@@ -37,14 +41,14 @@ class Task(id: EntityID<Int>) : IntEntity(id) {
     }
 
     fun toTaskDTO(): TaskDTO {
-        return transaction { return@transaction TaskDTO(this@Task.id.value, task, project.project.value, color) }
+        return TaskDTO(this@Task.id.value, task, project.project.value, color)
     }
 }
 
 data class TaskDTO(
     val id: Int,
     val name: String,
-    val category: String,
+    val project: String,
     val color: String
 )
 
