@@ -8,14 +8,17 @@ import kotlin.math.roundToInt
 
 object Utility {
 
-    private val prop = Properties()
+    private val props = Properties()
     init {
         ClassLoader.getSystemResourceAsStream("database.properties").use {
-            prop.load(it)
+            props.load(it)
+        }
+        for (prop in System.getProperties()) {
+            props.putIfAbsent(prop.key, prop.value)
         }
     }
 
-    fun getProperty(key: String): String = prop.getProperty(key)
+    fun getProperty(key: String): String = props.getProperty(key)
 
     fun Duration.getElapsedTimeString(): String {
         var secs = this.seconds

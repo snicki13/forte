@@ -17,7 +17,7 @@ class DailyResultView(private val tasks: ObservableList<Task>, private val date:
         this.dialogPane.buttonTypes.addAll(ButtonType.FINISH)
         this.dialogPane.content = tableview(taskResults) {
             readonlyColumn("Task", TaskResult::name)
-            readonlyColumn("Category", TaskResult::category)
+            readonlyColumn("Category", TaskResult::project)
             readonlyColumn("Duration", TaskResult::duration)
         }
     }

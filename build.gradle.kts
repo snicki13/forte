@@ -1,10 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.jvm.tasks.Jar
+
 
 val ktorVersion: String by project
 val exposedVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val koinVersion: String by project
+
+val mainClassName:String by project
 
 plugins {
     application
@@ -55,9 +59,6 @@ sourceSets.main {
     java.srcDirs("src/main/kotlin")
     resources.srcDir("src/main/resources")
 }
-
-// Include dependent libraries in archive.
-var mainClassName = "de.snickit.forte.ForteApp"
 
 val fatJar = task("fatJar", type = Jar::class) {
     baseName = "${project.name}-standalone"

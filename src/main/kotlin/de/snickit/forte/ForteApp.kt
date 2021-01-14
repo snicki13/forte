@@ -95,12 +95,13 @@ class ForteApp: App(ForteMainView::class, Styles::class) {
 
         //Add components to pop-up menu
         popup.add(openDesktopApp)
-        popup.addSeparator()
-        popup.add(openBrowser)
-        popup.add(stopServer)
+        if (Utility.getProperty("forte.browser.enable").toBoolean()) {
+            popup.addSeparator()
+            popup.add(openBrowser)
+            popup.add(stopServer)
+        }
         popup.addSeparator()
         popup.add(exitItem)
-
         trayIcon.popupMenu = popup
 
         tray.add(trayIcon)
