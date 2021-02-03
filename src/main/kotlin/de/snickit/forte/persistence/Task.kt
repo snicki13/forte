@@ -35,10 +35,12 @@ class Task(id: EntityID<Int>) : IntEntity(id) {
     fun getFullDurationPerDay(date: LocalDate): Duration {
         return transaction {
             return@transaction workingSessions.filter { it.startingTime != null }
-                .filter { date.isEqual(it.startingTime?.toLocalDate()) }
+                .filter { date.isEqual(it.date) }
                 .sumDuration { it.getElapsedTime() }
         }
     }
+
+    fun getDatesWithWork(): Set<LocalDate?> = workingSessions.map { it.date }.toHashSet()
 
     fun toTaskDTO(): TaskDTO {
         return TaskDTO(this@Task.id.value, task, project.project.value, color)

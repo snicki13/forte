@@ -9,7 +9,8 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.`java-time`.date
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.Duration
 import java.time.LocalDate
@@ -29,7 +30,9 @@ class Project(id: EntityID<String>) : Entity<String>(id) {
 
     private val tasks by Task referrersOn Tasks.project
 
-    fun getFullDurationPerDay(date: LocalDate): Duration = tasks.sumDuration { it.getFullDurationPerDay(LocalDate.now()) }
+    fun getFullDurationPerDay(date: LocalDate): Duration = transaction { tasks.sumDuration { it.getFullDurationPerDay(date) } }
+
+    fun getDaysPerMonthWithWork() = transaction { tasks.flatMapTo(HashSet(), Task::getDatesWithWork) }
 
     fun toProjectDTO(): ProjectDTO {
         return ProjectDTO(project.value, color);
@@ -52,6 +55,7 @@ class Project(id: EntityID<String>) : Entity<String>(id) {
             return project?.project?.value ?: ""
         }
     }
+
 }
 
 data class ProjectDTO(

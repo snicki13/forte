@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.jvm.tasks.Jar
 
-
 val ktorVersion: String by project
 val exposedVersion: String by project
 val kotlinVersion: String by project

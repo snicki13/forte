@@ -12,7 +12,6 @@ import javafx.scene.control.*
 import tornadofx.*
 
 import javafx.scene.layout.GridPane
-import javafx.util.StringConverter
 
 object AddTaskView: View() {
 

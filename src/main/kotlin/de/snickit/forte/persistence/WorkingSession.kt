@@ -7,8 +7,10 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.`java-time`.datetime
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 object WorkingSessions: IntIdTable() {
@@ -22,6 +24,9 @@ class WorkingSession(id: EntityID<Int>) : IntEntity(id) {
     var task by Task referencedOn WorkingSessions.task
     var startingTime by WorkingSessions.startingTime
     var endTime by WorkingSessions.endTime
+
+    val date: LocalDate?
+        get() = this.startingTime?.toLocalDate()
 
     fun stopSession(): WorkingSession {
         this.endTime = LocalDateTime.now()
@@ -40,9 +45,9 @@ object WorkingSessionQueries {
 
     fun selectCurrentOrLatestSession(task: Task): WorkingSession? {
         return transaction {
-            return@transaction WorkingSession.wrapRows(WorkingSessions
+            return@transaction WorkingSession.wrapRows(WorkingSessions.innerJoin(Tasks)
                 .slice(WorkingSessions.columns)
-                .select { WorkingSessions.task eq task.id }
+                .selectAll()
                 .orderBy(WorkingSessions.id, SortOrder.DESC)).firstOrNull()
         }
     }
