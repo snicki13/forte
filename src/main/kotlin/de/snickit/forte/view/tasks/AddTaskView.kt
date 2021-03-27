@@ -54,6 +54,7 @@ object AddTaskView: View() {
         project.converter = Project.ProjectConverter()
         project.isEditable = true
         project.items = forteController.getProjects()
+        project.value = forteController.activeProject
 
         val colorPicker = ColorPicker()
 
@@ -64,8 +65,6 @@ object AddTaskView: View() {
         grid.add(Label("Farbe:"), 0, 2)
         grid.add(colorPicker, 1, 2)
 
-
-        // Enable/Disable login button depending on whether a username was entered.
         val okButton = dialog.dialogPane.lookupButton(ButtonType.OK)
         okButton.isDisable = true
 

@@ -25,6 +25,8 @@ class ForteController: Controller() {
     var activeSession: WorkingSession? = null
     var activeView: TaskViewElement? = null
 
+    var activeProject: Project? = null
+
     fun getTasks(): ObservableList<Task> {
         return tasks.items
     }
@@ -39,6 +41,9 @@ class ForteController: Controller() {
                     this.color = color
                 }
                 tasks.add(task)
+                if (!projects.contains(project)) {
+                    projects.add(project)
+                }
                 task
             } else {
                 taskIterator.first()
