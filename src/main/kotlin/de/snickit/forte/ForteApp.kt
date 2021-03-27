@@ -2,7 +2,6 @@ package de.snickit.forte
 
 import de.snickit.forte.persistence.Tasks
 import de.snickit.forte.persistence.WorkingSessions
-import de.snickit.forte.server.HttpServer
 import de.snickit.forte.view.Styles
 import de.snickit.forte.view.main.ForteMainView
 import javafx.application.Platform
@@ -15,7 +14,6 @@ import tornadofx.App
 import tornadofx.launch
 import java.awt.*
 import java.io.IOException
-import java.net.URI
 import javax.imageio.ImageIO
 import javax.swing.SwingUtilities
 import kotlin.system.exitProcess
@@ -74,20 +72,8 @@ class ForteApp: App(ForteMainView::class, Styles::class) {
             )
         }
 
-        // Create a pop-up menu components
-        val openBrowser = MenuItem("Open Browser")
-        openBrowser.addActionListener {
-            openBrowser()
-        }
-
-        val stopServer = MenuItem("Stop Server")
-        stopServer.addActionListener {
-            HttpServer.stop()
-        }
-
         val exitItem = MenuItem("Exit")
         exitItem.addActionListener {
-            HttpServer.stop()
             Platform.exit()
             tray.remove(trayIcon)
             exitProcess(0)
@@ -95,11 +81,6 @@ class ForteApp: App(ForteMainView::class, Styles::class) {
 
         //Add components to pop-up menu
         popup.add(openDesktopApp)
-        if (Utility.getProperty("forte.browser.enable").toBoolean()) {
-            popup.addSeparator()
-            popup.add(openBrowser)
-            popup.add(stopServer)
-        }
         popup.addSeparator()
         popup.add(exitItem)
         trayIcon.popupMenu = popup
@@ -110,13 +91,6 @@ class ForteApp: App(ForteMainView::class, Styles::class) {
     private fun showStage() {
         stage.show()
         stage.toFront()
-    }
-
-    private fun openBrowser() {
-        HttpServer.start()
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            Desktop.getDesktop().browse(URI("http://localhost:${Utility.getProperty("http.port")}"))
-        }
     }
 
     companion object {
